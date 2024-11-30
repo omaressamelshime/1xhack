@@ -435,6 +435,30 @@ form button:hover {
     </div>
 
     <script>
+
+
+
+const imagePaths = [
+        'bg1.jpg',
+        'bg2.jpg',
+        'bg3.jpg',
+        'bg4.jpg',
+        'bg5.jpg'
+    ];
+
+    // تحميل الصور مسبقًا في الذاكرة
+    const preloadImages = (paths) => {
+        paths.forEach(path => {
+            const img = new Image();
+            img.src = path;
+        });
+    };
+
+    // استدعاء الوظيفة لتحميل الصور
+    preloadImages(imagePaths);
+
+
+
         const passwords = [
             "1-xbetA1B2C3", "1-xbetD4E5F6", "1-xbetG7H8I9", "1-xbetJ0K1L2", "1-xbetM3N4O5", 
             "1-xbetP6Q7R8", "1-xbetS9T0U1", "1-xbetV2W3X4", "1-xbetY5Z6A7", "1-xbetB8C9D0", 
